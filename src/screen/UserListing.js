@@ -29,7 +29,7 @@ const UserListing = () => {
           )}
         />
         <TouchableOpacity style={styles.buttonContainer}>
-            <Text>ADD</Text>
+            <Text style={styles.btnText}>ADD</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -39,10 +39,10 @@ const UserListing = () => {
 const styles = StyleSheet.create({
   list: {
     padding: ResponsiveSize(10),
-    borderWidth:1,
-    margin:ResponsiveSize(15),
-    borderRadius:ResponsiveSize(20),
-    backgroundColor:'white'
+    borderWidth: 1,
+    margin: ResponsiveSize(15),
+    borderRadius: ResponsiveSize(20),
+    backgroundColor: 'white',
   },
   container: {
     flex: 1,
@@ -50,13 +50,25 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     marginTop: ResponsiveSize(80),
+    flex: 1,
   },
-  listHeading:{
-    fontSize:ResponsiveSize(30),
-    fontWeight:'600',
+  listHeading: {
+    fontSize: ResponsiveSize(30),
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    backgroundColor: '#503C3C',
+    padding: ResponsiveSize(20),
+    margin: ResponsiveSize(20),
+    borderRadius: ResponsiveSize(10),
+    marginBottom: '5%',
+  },
+  btnText: {
+    fontSize: ResponsiveSize(20),
+    color: '#F5E8C7',
     textAlign:'center'
   },
-  
 });
 
 export default UserListing;
