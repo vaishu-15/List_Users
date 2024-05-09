@@ -1,16 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';
-import { resetCache } from '../../metro.config';
 
-const Welcome = (props) => {
+const Welcome = ({navigation}) => {
 
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
         <Text style={styles.welcome}>Welcome</Text>
       </View>
-      <TouchableOpacity style={styles.btn}  onPress={()=> props.navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.btn}  onPress={()=> navigation.navigate('Login')}>
         <Text style={styles.btnText}>Continue</Text>
       </TouchableOpacity>
     </View>

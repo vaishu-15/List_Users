@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import {
   View,
   TextInput,
@@ -10,21 +11,24 @@ import {
   Alert,
 } from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';
+import {register} from '../store/userSlice';
 import {useDispatch} from 'react-redux';
-import {login} from '../store/userSlice';
 
-const Login = ({navigation}) => {
-  const [email, setEmail] = useState('eve.holt@reqres.in');
-  const [password, setPassword] = useState('cityslicka');
+const SignUp = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [password, setPassword] = useState('');
+  const [lastName, setLastName] = useState('');
+
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    dispatch(login({email, password})).then(result => {
+  const handleRegistration = () => {
+    dispatch(register({email, password, firstName, lastName})).then(result => {
       if (result.payload && result.payload.token) {
         navigation.navigate('UserListing');
       } else {
-        console.log('Login failed');
-        Alert.alert('Wrong email and password');
+        console.log('Signup failed');
+        Alert.alert('please enter the password');
       }
     });
   };
@@ -45,6 +49,27 @@ const Login = ({navigation}) => {
               onChangeText={setEmail}
               keyboardType="email-address"
               placeholderTextColor={'white'}
+              autoCapitalize="none"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="FirstName"
+              value={firstName}
+              onChangeText={setFirstName}
+              keyboardType="default"
+              placeholderTextColor={'white'}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="LastName"
+              value={lastName}
+              onChangeText={setLastName}
+              keyboardType="default"
+              placeholderTextColor={'white'}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -57,13 +82,15 @@ const Login = ({navigation}) => {
               secureTextEntry
             />
           </View>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Login</Text>
+          <TouchableOpacity
+            style={styles.loginButton}
+            onPress={handleRegistration}>
+            <Text style={styles.loginButtonText}>Sign Up</Text>
           </TouchableOpacity>
           <View style={styles.signUp}>
-            <Text style={styles.question}>Don't have an account ? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-              <Text style={styles.sign}>Sign Up</Text>
+            <Text style={styles.question}>Already have an account </Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.sign}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -79,7 +106,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#FEFAF6',
   },
   fields: {
-    marginTop: '60%',
+    marginTop: '45%',
     padding: ResponsiveSize(20),
   },
   inputContainer: {
@@ -122,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignUp;

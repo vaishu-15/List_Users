@@ -1,8 +1,8 @@
 const {combineReducers} = require('@reduxjs/toolkit');
-// import userReducer from "./userSlice";
+import userReducer from './userSlice';
 
  const reducers = combineReducers({
-    // user: userReducer,
+    user: userReducer,
 });
 
 export default reducers;
