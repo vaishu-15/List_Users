@@ -8,18 +8,23 @@ import {
   Image,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {listAdd} from '../store/userSlice';
+import {deleteUser, listAdd,} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const Users = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const data = useSelector(state => state?.additionalData?.data);
+  const data = useSelector(state => state?.additionalData);
   console.log('data', data);
 
   useEffect(() => {
     dispatch(listAdd());
   }, [listAdd]);
+
+//   const handleDeleteUser = userId => {
+//     console.log('Deleting user with ID:', userId);
+//     dispatch(deleteUser(userId));
+//   };
 
   return (
     <View style={styles.container}>
@@ -28,27 +33,22 @@ const Users = ({navigation}) => {
         <FlatList
           data={data}
           renderItem={({item}) => (
-            <View style={styles.list}>
-              <View>
-                <Text>Email: {item.email}</Text>
-                <Text>firstName: {item.first_name}</Text>
-                <Text>lastName: {item.last_name}</Text>
+            <>
+              <View style={styles.list}>
+                <Text>Name: {item.name}</Text>
+                <Text>Year: {item.year}</Text>
+                <Text>Color: {item.color}</Text>
+                <Text>Pantone Value: {item.pantone_value}</Text>
               </View>
-              <Image
-                source={{uri: item.avatar}}
-                style={{
-                  width: ResponsiveSize(80),
-                  height: ResponsiveSize(80),
-                  borderRadius: ResponsiveSize(40),
-                }}
-              />
-              <View
+              {/* <View
                 style={{
                   flexDirection: 'row',
                   alignSelf: 'flex-end',
                   justifyContent: 'center',
                 }}>
-                <TouchableOpacity style={{alignSelf: 'center'}}>
+                <TouchableOpacity
+                  style={{alignSelf: 'center'}}
+                  onPress={() => navigation.navigate('Create')}>
                   <Image
                     source={require('../../assets/images/edit.png')}
                     style={{
@@ -57,7 +57,7 @@ const Users = ({navigation}) => {
                     }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
                   <Image
                     source={require('../../assets/images/remove.png')}
                     style={{
@@ -66,8 +66,8 @@ const Users = ({navigation}) => {
                     }}
                   />
                 </TouchableOpacity>
-              </View>
-            </View>
+              </View> */}
+            </>
           )}
         />
         <TouchableOpacity
@@ -79,7 +79,6 @@ const Users = ({navigation}) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   list: {
     padding: ResponsiveSize(10),

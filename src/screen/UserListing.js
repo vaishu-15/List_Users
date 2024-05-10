@@ -1,18 +1,22 @@
 import React, {useEffect} from 'react';
 import {View, FlatList,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import { list } from '../store/userSlice';
+import {list } from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const listData = useSelector(state => state?.user?.data);
+  const listData = useSelector(state => state.user);
   console.log('listing data',listData);
 
   useEffect(() => {
     dispatch(list());
   }, [list]);
+
+   const handleUserPress = userId => {
+     navigation.navigate('UserDetails', {userId});
+   };
 
   return (
     <View style={styles.container}>
@@ -22,16 +26,54 @@ const UserListing = ({navigation}) => {
           data={listData}
           renderItem={({item}) => (
             <View style={styles.list}>
-                <Text>Name: {item.name}</Text>
-                <Text>Year: {item.year}</Text>
-                <Text>Color: {item.color}</Text>
-                <Text>Pantone Value: {item.pantone_value}</Text>
+              <Text>Email: {item.email}</Text>
+              <Text>firstName: {item.first_name}</Text>
+              <Text>lastName: {item.last_name}</Text>
+              <TouchableOpacity onPress={() => handleUserPress(item.id)}>
+                <Image
+                  source={{uri: item.avatar}}
+                  style={{
+                    width: ResponsiveSize(80),
+                    height: ResponsiveSize(80),
+                    borderRadius: ResponsiveSize(40),
+                  }}
+                />
+              </TouchableOpacity>
+              {/* <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  justifyContent: 'center',
+                }}>
+                <TouchableOpacity
+                  style={{alignSelf: 'center'}}
+                  onPress={() => navigation.navigate('Create')}>
+                  <Image
+                    source={require('../../assets/images/edit.png')}
+                    style={{
+                      width: ResponsiveSize(25),
+                      height: ResponsiveSize(25),
+                    }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
+                  <Image
+                    source={require('../../assets/images/remove.png')}
+                    style={{
+                      width: ResponsiveSize(40),
+                      height: ResponsiveSize(40),
+                    }}
+                  />
+                </TouchableOpacity>
+              </View> */}
             </View>
           )}
         />
-        <TouchableOpacity style={styles.buttonContainer} onPress={()=>navigation.navigate('Users')}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => navigation.navigate('Users')}>
           <Text style={styles.btnText}>Continue to Next page</Text>
-        </TouchableOpacity> 
+        </TouchableOpacity>
       </View>
     </View>
   );

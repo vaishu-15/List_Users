@@ -1,75 +1,119 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'https://reqres.in/api/',
+});
 
 export const register = createAsyncThunk(
   'user/register',
-  async ({ email, firstName, lastName, password }, { rejectWithValue }) => {
+  async ({email, firstName, lastName, password}, {rejectWithValue}) => {
     try {
-      const response = await axios.post('https://reqres.in/api/register', {
-        email,
-        firstName,
-        lastName,
-        password,
+      const response = await api.post('register', {
+        email,firstName,lastName,password,
       });
       return response.data;
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        return rejectWithValue({ error: 'Missing password' });
-      } else {
-        throw error;
-      }
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
     }
-  }
+  },
 );
 
 export const login = createAsyncThunk(
-    'user/login',
-  async ({ email,password }, { rejectWithValue }) => {
+  'user/login',
+  async ({email, password}, {rejectWithValue}) => {
     try {
-      const response = await axios.post('https://reqres.in/api/login', {
-        email,
-        password,
-      });
+      const response = await api.post('login', {email, password});
       return response.data;
     } catch (error) {
-      if (error.response && error.response.status === 400) {
-        return rejectWithValue({ error: 'Missing password' });
-      } else {
-        throw error;
-      }
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
     }
+  },
+);
+
+export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
+  try {
+    const response = await api.get('users');
+    return response.data.data;
+  } catch (error) {
+    throw error;
   }
+});
+
+export const fetchUserDetails = createAsyncThunk(
+  'user/fetchUserDetails',
+  async (userId, {rejectWithValue}) => {
+    try {
+      const response = await api.get(`users/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
 );
 
 export const list = createAsyncThunk('user/list', async () => {
   try {
-    const response = await axios.get('https://reqres.in/api/unknown');
-    return response.data;
+    const response1 = await api.get('users?page=1');
+    const response2 = await api.get('users?page=2');
+    const users1 = response1.data.data;
+    const users2 = response2.data.data;
+    const combinedUsers = [...users1, ...users2];
+    return combinedUsers;
   } catch (error) {
     throw error;
   }
 });
 
-export const listAdd = createAsyncThunk('user/listAdd', async () => {
+export const listAdd = createAsyncThunk('unknown/list', async () => {
   try {
-    const response = await axios.get('https://reqres.in/api/users?page=2');
-    return response.data;
+    const response1 = await api.get('unknown?page=1');
+    const response2 = await api.get('unknown?page=2');
+    const data1 = response1.data.data;
+    const data2 = response2.data.data;
+    const combinedData = [...data1, ...data2];
+    return combinedData;
   } catch (error) {
     throw error;
   }
 });
+
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (userId, {rejectWithValue}) => {
+    try {
+      const response = await api.delete(`users/${userId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
+);
 
 const initialState = {
   user: [null],
   additionalData: [null],
   error: [null],
   loading: false,
+  userDelete: [null],
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    removeUser(state, action) {
+      state.userDelete = state.user.filter(user => user.id !== action.payload);
+      console.log('Updated state:', state.userDelete);
+    },
   },
   extraReducers: builder => {
     builder
@@ -118,6 +162,14 @@ const userSlice = createSlice({
         state.additionalData = action?.payload;
       })
       .addCase(listAdd.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(deleteUser.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       });

@@ -6,6 +6,8 @@ import Login from "../screen/Login";
 import SignUp from "../screen/SignUp";
 import UserListing from "../screen/UserListing";
 import Users from "../screen/Users";
+import Create from "../screen/CreateUser";
+import UserDetails from "../screen/UserDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +38,11 @@ const Routes = () => (
         options={{headerShown: false}}
         name="Users"
         component={Users}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="UserDetails"
+        component={UserDetails}
       />
     </Stack.Navigator>
   </NavigationContainer>
