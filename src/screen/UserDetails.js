@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity,Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchUserDetails} from '../store/userSlice';
-import ResponsiveSize from '../utils/responsiveSize';
 
 const UserDetails = ({route}) => {
   const {userId} = route.params;
