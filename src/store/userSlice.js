@@ -50,17 +50,28 @@ export const list = createAsyncThunk('user/list', async () => {
   }
 });
 
+export const listAdd = createAsyncThunk('user/listAdd', async () => {
+  try {
+    const response = await axios.get('https://reqres.in/api/users?page=2');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+});
+
 const initialState = {
-  user: null,
-  error: null,
+  user: [null],
+  additionalData: [null],
+  error: [null],
   loading: false,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
+  reducers: {
+  },
+  extraReducers: builder => {
     builder
       .addCase(register.pending, state => {
         state.loading = true;
@@ -68,11 +79,11 @@ const userSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action?.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action?.error?.message;
       })
       .addCase(login.pending, state => {
         state.loading = true;
@@ -80,11 +91,11 @@ const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action?.payload;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action?.error?.message;
       })
       .addCase(list.pending, state => {
         state.loading = true;
@@ -92,14 +103,27 @@ const userSlice = createSlice({
       })
       .addCase(list.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action?.payload;
       })
       .addCase(list.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action?.error?.message;
+      })
+      .addCase(listAdd.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(listAdd.fulfilled, (state, action) => {
+        state.loading = false;
+        state.additionalData = action?.payload;
+      })
+      .addCase(listAdd.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
       });
   },
 });
 
-export const userActions = userSlice.actions;
+export const {userActions, addUser} = userSlice.actions;
+
 export default userSlice.reducer;

@@ -1,17 +1,18 @@
 import React, {useEffect} from 'react';
-import {View, FlatList,Text,StyleSheet, TouchableOpacity,} from 'react-native';
+import {View, FlatList,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import { list } from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
-const UserListing = () => {
+const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
-  const listData = useSelector(state => state.user.data);
+
+  const listData = useSelector(state => state?.user?.data);
   console.log('listing data',listData);
 
   useEffect(() => {
     dispatch(list());
-  }, [dispatch]);
+  }, [list]);
 
   return (
     <View style={styles.container}>
@@ -21,16 +22,16 @@ const UserListing = () => {
           data={listData}
           renderItem={({item}) => (
             <View style={styles.list}>
-              <Text>Name: {item.name}</Text>
-              <Text>Year: {item.year}</Text>
-              <Text>Color: {item.color}</Text>
-              <Text>Pantone Value: {item.pantone_value}</Text>
+                <Text>Name: {item.name}</Text>
+                <Text>Year: {item.year}</Text>
+                <Text>Color: {item.color}</Text>
+                <Text>Pantone Value: {item.pantone_value}</Text>
             </View>
           )}
         />
-        <TouchableOpacity style={styles.buttonContainer}>
-            <Text style={styles.btnText}>ADD</Text>
-        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer} onPress={()=>navigation.navigate('Users')}>
+          <Text style={styles.btnText}>Continue to Next page</Text>
+        </TouchableOpacity> 
       </View>
     </View>
   );
