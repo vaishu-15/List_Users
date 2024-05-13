@@ -105,6 +105,7 @@ export const deleteUser = createAsyncThunk(
   async (userId, {rejectWithValue}) => {
     try {
       const response = await api.delete(`users/${userId}`);
+       console.log('Delete API Response:', response.status);
       return {userId};
     } catch (error) {
       return rejectWithValue(
@@ -119,24 +120,12 @@ const initialState = {
   additionalData: [null],
   error: [null],
   loading: false,
-  updatedUserList: [null],
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    removeUser(state, action) {
-      state.user = state.user.filter(user => user.id !== action.payload.userId);
-      state.updatedUserList = state.updatedUserList.filter(
-        user => user.id !== action.payload.userId,
-      );
-    },
-    updateUserListAfterDeletion(state, action) {
-      state.updatedUserList = state.user.filter(
-        user => user.id !== action.payload.userId,
-      );
-    },
   },
   extraReducers: builder => {
     builder

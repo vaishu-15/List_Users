@@ -1,16 +1,14 @@
 import React, {useEffect} from 'react';
 import {View, FlatList,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {list,deleteUser} from '../store/userSlice';
+import {deleteUser, list} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
 
   const listData = useSelector(state => state?.user);
-  const updatedUserList = useSelector(state => state);
-  
-  console.log('list data updated', updatedUserList);
+  // console.log('listing data', listData);
 
   useEffect(() => {
     dispatch(list());
@@ -20,9 +18,9 @@ const UserListing = ({navigation}) => {
      navigation.navigate('UserListingDetails', {userId});
    };
 
-     const handleDeleteUser = userId => {
-       dispatch(deleteUser(userId));
-     };
+    const handleDeleteUser = userId => {
+      dispatch(deleteUser(userId));
+    };
 
   return (
     <View style={styles.container}>
