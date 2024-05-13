@@ -30,9 +30,6 @@ const UserListing = ({navigation}) => {
           data={listData}
           renderItem={({item}) => (
             <View style={styles.list}>
-              <Text>Email: {item.email}</Text>
-              <Text>firstName: {item.first_name}</Text>
-              <Text>lastName: {item.last_name}</Text>
               <TouchableOpacity onPress={() => handleUserPress(item.id)}>
                 <Image
                   source={{uri: item.avatar}}
@@ -43,8 +40,24 @@ const UserListing = ({navigation}) => {
                   }}
                 />
               </TouchableOpacity>
+              <View style={{flex: 1, marginLeft: ResponsiveSize(30),justifyContent:'center'}}>
+                <Text
+                  style={{
+                    fontWeight: '700',
+                    fontSize: ResponsiveSize(20),
+                  }}>
+                  {item.first_name} {item.last_name}
+                </Text>
+                <Text style={{fontSize: ResponsiveSize(17)}}>{item.email}</Text>
+              </View>
               <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
-                <Text>Delete</Text>
+                <Image
+                  source={require('../../assets/images/remove.png')}
+                  style={{
+                    width: ResponsiveSize(30),
+                    height: ResponsiveSize(30),
+                  }}
+                />
               </TouchableOpacity>
             </View>
           )}
@@ -66,6 +79,8 @@ const styles = StyleSheet.create({
     margin: ResponsiveSize(15),
     borderRadius: ResponsiveSize(20),
     backgroundColor: 'white',
+    flexDirection:'row',
+    justifyContent:'space-between'
   },
   container: {
     flex: 1,
