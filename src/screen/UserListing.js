@@ -15,6 +15,7 @@ const UserListing = ({navigation}) => {
     dispatch(list());
   }, [list]);
 
+  
    const handleUserPress = userId => {
      navigation.navigate('UserListingDetails', {userId});
    };
