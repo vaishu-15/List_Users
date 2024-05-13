@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   FlatList,
@@ -8,23 +8,27 @@ import {
   Image,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteUser, listAdd,} from '../store/userSlice';
+import {listAdd} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const Users = ({navigation}) => {
   const dispatch = useDispatch();
 
   const data = useSelector(state => state?.additionalData);
-  console.log('data', data);
+  // console.log('data', data);
 
   useEffect(() => {
     dispatch(listAdd());
   }, [listAdd]);
 
-//   const handleDeleteUser = userId => {
-//     console.log('Deleting user with ID:', userId);
-//     dispatch(deleteUser(userId));
-//   };
+  const handleUserPress = userIdDetails => {
+    navigation.navigate('UserDetails', {userIdDetails});
+  };
+
+  //   const handleDeleteUser = userId => {
+  //     console.log('Deleting user with ID:', userId);
+  //     dispatch(deleteUser(userId));
+  //   };
 
   return (
     <View style={styles.container}>
@@ -35,7 +39,10 @@ const Users = ({navigation}) => {
           renderItem={({item}) => (
             <>
               <View style={styles.list}>
-                <Text>Name: {item.name}</Text>
+                {/* onPress={() => handleUserPress(item.id)} */}
+                <TouchableOpacity onPress={() => handleUserPress(item.id)}>
+                  <Text>Name: {item.name}</Text>
+                </TouchableOpacity>
                 <Text>Year: {item.year}</Text>
                 <Text>Color: {item.color}</Text>
                 <Text>Pantone Value: {item.pantone_value}</Text>

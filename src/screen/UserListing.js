@@ -8,14 +8,14 @@ const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
 
   const listData = useSelector(state => state.user);
-  console.log('listing data',listData);
+  // console.log('listing data',listData);
 
   useEffect(() => {
     dispatch(list());
   }, [list]);
 
    const handleUserPress = userId => {
-     navigation.navigate('UserDetails', {userId});
+     navigation.navigate('UserListingDetails', {userId});
    };
 
   return (
