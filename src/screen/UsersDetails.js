@@ -10,7 +10,6 @@ const UserDetails = ({route, navigation}) => {
   const userDetail = useSelector(state =>
     state?.additionalData?.find(user => user.id === userIdDetails),
   );
-  //   console.log('userdetails in screen', userDetail);
 
   useEffect(() => {
     dispatch(fetchDetails(userIdDetails));
@@ -29,8 +28,7 @@ const UserDetails = ({route, navigation}) => {
             <Text style={styles.nameText}>Name:{userDetail.name}</Text>
             <Text style={styles.emailText}>Year:{userDetail.year}</Text>
             <Text style={styles.emailText}>Color:{userDetail.color}</Text>
-            <Text style={styles.emailText}>
-              Patone Value:{userDetail.pantone_value}
+            <Text style={styles.emailText}>Patone Value:{userDetail.pantone_value}
             </Text>
           </View>
         </View>

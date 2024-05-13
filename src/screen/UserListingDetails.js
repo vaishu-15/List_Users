@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity,Image, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchUserDetails} from '../store/userSlice';
+import { fetchUserDetails} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const UserListingDetails = ({route,navigation}) => {
@@ -10,15 +10,16 @@ const UserListingDetails = ({route,navigation}) => {
   const userDetails = useSelector(state =>
     state?.user?.find(user => user.id === userId),
   );
-  // console.log('userdetails in screen', userDetails);
 
-  useEffect(() => {
-    dispatch(fetchUserDetails(userId));
-  }, [dispatch, userId]);
+    useEffect(() => {
+        dispatch(fetchUserDetails(userId));
+    },[dispatch, userId]);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack('')} style={styles.backButtonContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack('')}
+        style={styles.backButtonContainer}>
         <Text style={styles.backButton}>Back</Text>
       </TouchableOpacity>
       {userDetails && (
@@ -30,6 +31,15 @@ const UserListingDetails = ({route,navigation}) => {
             <Text style={styles.emailText}>{userDetails.email}</Text>
             <TouchableOpacity>
               <Image source={{uri: userDetails.avatar}} style={styles.avatar} />
+            </TouchableOpacity>
+            <TouchableOpacity >
+              <Image
+                source={require('../../assets/images/remove.png')}
+                style={{
+                  width: ResponsiveSize(40),
+                  height: ResponsiveSize(40),
+                }}
+              />
             </TouchableOpacity>
           </View>
         </View>

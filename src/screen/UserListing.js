@@ -1,14 +1,15 @@
 import React, {useEffect} from 'react';
 import {View, FlatList,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {list } from '../store/userSlice';
+import {list,deleteUser} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const listData = useSelector(state => state.user);
-  // console.log('listing data',listData);
+  const listData = useSelector(state => state?.user);
+  
+  console.log('list data updated',listData)
 
   useEffect(() => {
     dispatch(list());
@@ -17,6 +18,10 @@ const UserListing = ({navigation}) => {
    const handleUserPress = userId => {
      navigation.navigate('UserListingDetails', {userId});
    };
+
+     const handleDeleteUser = userId => {
+       dispatch(deleteUser(userId));
+     };
 
   return (
     <View style={styles.container}>
@@ -39,33 +44,9 @@ const UserListing = ({navigation}) => {
                   }}
                 />
               </TouchableOpacity>
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  alignSelf: 'flex-end',
-                  justifyContent: 'center',
-                }}>
-                <TouchableOpacity
-                  style={{alignSelf: 'center'}}
-                  onPress={() => navigation.navigate('Create')}>
-                  <Image
-                    source={require('../../assets/images/edit.png')}
-                    style={{
-                      width: ResponsiveSize(25),
-                      height: ResponsiveSize(25),
-                    }}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
-                  <Image
-                    source={require('../../assets/images/remove.png')}
-                    style={{
-                      width: ResponsiveSize(40),
-                      height: ResponsiveSize(40),
-                    }}
-                  />
-                </TouchableOpacity>
-              </View> */}
+              <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
+                <Text>Delete</Text>
+              </TouchableOpacity>
             </View>
           )}
         />
@@ -115,11 +96,3 @@ const styles = StyleSheet.create({
 });
 
 export default UserListing;
-
-{
-  /* <Image
-          source={require('../../assets/images/listEdit.jpg')}
-          style={styles.image}
-          resizeMode="cover"
-        /> */
-}
