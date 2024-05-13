@@ -100,25 +100,43 @@ export const listAdd = createAsyncThunk('unknown/list', async () => {
   }
 });
 
-export const deleteUser = createAsyncThunk('user/delete', async userId => {
-  await fetch(`https://reqres.in/api/users/${userId}`, {
-    method: 'DELETE',
-  });
-  return userId;
-});
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (userId, {rejectWithValue}) => {
+    try {
+      const response = await api.delete(`users/${userId}`);
+      return {userId};
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
+);
 
 const initialState = {
   user: [null],
   additionalData: [null],
   error: [null],
   loading: false,
-  data: [null],
+  updatedUserList: [null],
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    removeUser(state, action) {
+      state.user = state.user.filter(user => user.id !== action.payload.userId);
+      state.updatedUserList = state.updatedUserList.filter(
+        user => user.id !== action.payload.userId,
+      );
+    },
+    updateUserListAfterDeletion(state, action) {
+      state.updatedUserList = state.user.filter(
+        user => user.id !== action.payload.userId,
+      );
+    },
   },
   extraReducers: builder => {
     builder
@@ -175,8 +193,10 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-           state.loading = false;
-           state.data = state.data.filter(user => user.id !== action.payload);
+        state.loading = false;
+        state.user = state.user.filter(
+          user => user.id !== action.payload.userId,
+        );
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;

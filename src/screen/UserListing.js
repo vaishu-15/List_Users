@@ -8,8 +8,9 @@ const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
 
   const listData = useSelector(state => state?.user);
+  const updatedUserList = useSelector(state => state);
   
-  console.log('list data updated',listData)
+  console.log('list data updated', updatedUserList);
 
   useEffect(() => {
     dispatch(list());
