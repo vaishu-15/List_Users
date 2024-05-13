@@ -34,11 +34,30 @@ const Users = ({navigation}) => {
             <>
               <View style={styles.list}>
                 <TouchableOpacity onPress={() => handleUserPress(item.id)}>
-                  <Text>Name: {item.name}</Text>
+                  <Text
+                    style={{fontWeight: '600', fontSize: ResponsiveSize(25)}}>
+                    {' '}
+                    {item.name}
+                  </Text>
                 </TouchableOpacity>
-                <Text>Year: {item.year}</Text>
-                <Text>Color: {item.color}</Text>
-                <Text>Pantone Value: {item.pantone_value}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{fontSize: ResponsiveSize(20)}}>
+                    {' '}
+                    {item.year}
+                  </Text>
+                  <Text style={{fontSize: ResponsiveSize(20)}}>
+                    {item.pantone_value}
+                  </Text>
+                </View>
+                <Text
+                  style={{alignSelf: 'flex-end', fontSize: ResponsiveSize(18)}}>
+                  {item.color}
+                </Text>
               </View>
             </>
           )}
@@ -55,10 +74,12 @@ const Users = ({navigation}) => {
 const styles = StyleSheet.create({
   list: {
     padding: ResponsiveSize(10),
-    borderWidth: 1,
+    borderWidth: 1 ,
     margin: ResponsiveSize(15),
     borderRadius: ResponsiveSize(20),
     backgroundColor: 'white',
+    flexDirection:'column',
+
   },
   container: {
     flex: 1,
