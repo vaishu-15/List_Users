@@ -14,7 +14,7 @@ const middleware = getDefaultMiddleware =>
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user', 'additionalData', 'userDelete'],
+  whitelist: ['user', 'additionalData', 'updatedUserList'],
 };
 
 const persistedReducer = persistReducer(persistConfig, userReducer);

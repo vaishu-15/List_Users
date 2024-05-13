@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   FlatList,
@@ -8,23 +8,21 @@ import {
   Image,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteUser, listAdd,} from '../store/userSlice';
+import {listAdd} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const Users = ({navigation}) => {
   const dispatch = useDispatch();
 
   const data = useSelector(state => state?.additionalData);
-  console.log('data', data);
 
   useEffect(() => {
     dispatch(listAdd());
   }, [listAdd]);
 
-//   const handleDeleteUser = userId => {
-//     console.log('Deleting user with ID:', userId);
-//     dispatch(deleteUser(userId));
-//   };
+  const handleUserPress = userIdDetails => {
+    navigation.navigate('UserDetails', {userIdDetails});
+  };
 
   return (
     <View style={styles.container}>
@@ -35,38 +33,13 @@ const Users = ({navigation}) => {
           renderItem={({item}) => (
             <>
               <View style={styles.list}>
-                <Text>Name: {item.name}</Text>
+                <TouchableOpacity onPress={() => handleUserPress(item.id)}>
+                  <Text>Name: {item.name}</Text>
+                </TouchableOpacity>
                 <Text>Year: {item.year}</Text>
                 <Text>Color: {item.color}</Text>
                 <Text>Pantone Value: {item.pantone_value}</Text>
               </View>
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  alignSelf: 'flex-end',
-                  justifyContent: 'center',
-                }}>
-                <TouchableOpacity
-                  style={{alignSelf: 'center'}}
-                  onPress={() => navigation.navigate('Create')}>
-                  <Image
-                    source={require('../../assets/images/edit.png')}
-                    style={{
-                      width: ResponsiveSize(25),
-                      height: ResponsiveSize(25),
-                    }}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
-                  <Image
-                    source={require('../../assets/images/remove.png')}
-                    style={{
-                      width: ResponsiveSize(40),
-                      height: ResponsiveSize(40),
-                    }}
-                  />
-                </TouchableOpacity>
-              </View> */}
             </>
           )}
         />

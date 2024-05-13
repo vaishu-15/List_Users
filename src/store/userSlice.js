@@ -10,7 +10,10 @@ export const register = createAsyncThunk(
   async ({email, firstName, lastName, password}, {rejectWithValue}) => {
     try {
       const response = await api.post('register', {
-        email,firstName,lastName,password,
+        email,
+        firstName,
+        lastName,
+        password,
       });
       return response.data;
     } catch (error) {
@@ -35,15 +38,6 @@ export const login = createAsyncThunk(
   },
 );
 
-export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
-  try {
-    const response = await api.get('users');
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
-});
-
 export const fetchUserDetails = createAsyncThunk(
   'user/fetchUserDetails',
   async (userId, {rejectWithValue}) => {
@@ -51,9 +45,31 @@ export const fetchUserDetails = createAsyncThunk(
       const response = await api.get(`users/${userId}`);
       return response.data.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response ? error.response.data : error.message,
-      );
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue({error: 'User not found'});
+      } else {
+        return rejectWithValue(
+          error.response ? error.response.data : error.message,
+        );
+      }
+    }
+  },
+);
+
+export const fetchDetails = createAsyncThunk(
+  'user/fetchDetails',
+  async (userId, {rejectWithValue}) => {
+    try {
+      const response = await api.get(`unknown/${userId}`);
+      return response.data.data;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        return rejectWithValue({error: 'User not found'});
+      } else {
+        return rejectWithValue(
+          error.response ? error.response.data : error.message,
+        );
+      }
     }
   },
 );
@@ -89,7 +105,8 @@ export const deleteUser = createAsyncThunk(
   async (userId, {rejectWithValue}) => {
     try {
       const response = await api.delete(`users/${userId}`);
-      return response.data;
+       console.log('Delete API Response:', response.status);
+      return {userId};
     } catch (error) {
       return rejectWithValue(
         error.response ? error.response.data : error.message,
@@ -103,17 +120,12 @@ const initialState = {
   additionalData: [null],
   error: [null],
   loading: false,
-  userDelete: [null],
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    removeUser(state, action) {
-      state.userDelete = state.user.filter(user => user.id !== action.payload);
-      console.log('Updated state:', state.userDelete);
-    },
   },
   extraReducers: builder => {
     builder
@@ -168,6 +180,12 @@ const userSlice = createSlice({
       .addCase(deleteUser.pending, state => {
         state.loading = true;
         state.error = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = state.user.filter(
+          user => user.id !== action.payload.userId,
+        );
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;

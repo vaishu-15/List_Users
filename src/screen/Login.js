@@ -30,7 +30,6 @@ const Login = ({navigation}) => {
   };
 
   return (
-    // <ScrollView showsVerticalScrollIndicator={false} style={{flexGrow:1}}>
     <View style={styles.container}>
       <ImageBackground
         source={require('../../assets/images/backgroundlight.jpg')}
@@ -69,7 +68,6 @@ const Login = ({navigation}) => {
         </View>
       </ImageBackground>
     </View>
-    // </ScrollView>
   );
 };
 

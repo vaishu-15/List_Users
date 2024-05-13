@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Text,
   ImageBackground,
-  ScrollView,
   Alert,
 } from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';
@@ -34,7 +33,6 @@ const SignUp = ({navigation}) => {
   };
 
   return (
-    // <ScrollView showsVerticalScrollIndicator={false} style={{flexGrow:1}}>
     <View style={styles.container}>
       <ImageBackground
         source={require('../../assets/images/backgroundlight.jpg')}
@@ -96,7 +94,6 @@ const SignUp = ({navigation}) => {
         </View>
       </ImageBackground>
     </View>
-    // </ScrollView>
   );
 };
 
