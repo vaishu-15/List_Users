@@ -16,6 +16,8 @@ const UserDetails = ({route, navigation}) => {
     state?.additionalData?.find(user => user.id === userIdDetails),
   );
   const [createdUser, setCreatedUser] = useState(null);
+  const [updatedUser, setUpdatedUser] = useState(null);
+  const [patchUpdatedUser, setPatchUpdatedUser] = useState(null);
 
   const handleCreateUser = () => {
     dispatch(createUser({name: 'morpheus', job: 'leader'})).then(result => {
@@ -33,8 +35,8 @@ const UserDetails = ({route, navigation}) => {
     dispatch(
       updateUser({
         userId: userIdDetails,
-        name: 'Updated Name',
-        job: 'Updated Job',
+        name: 'morpheus',
+        job: 'zion resident',
       }),
     ).then(result => {
       if (!result.error) {
@@ -49,8 +51,8 @@ const UserDetails = ({route, navigation}) => {
     dispatch(
       updateUserPatch({
         userId: userIdDetails,
-        name: 'Patched Name',
-        job: 'Patched Job',
+        name: 'morpheus',
+        job: 'zion resident',
       }),
     ).then(result => {
       if (!result.error) {
@@ -80,14 +82,43 @@ const UserDetails = ({route, navigation}) => {
           </View>
         </View>
       )}
-      <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
-        <Text style={styles.buttonText}>Create User</Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}>
+        <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
+          <Text style={styles.buttonText}>Create</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
+          <Text style={styles.buttonText}>Update(PUT)</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
+          <Text style={styles.buttonText}>Update(PATCH)</Text>
+        </TouchableOpacity>
+      </View>
       {createdUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
             <Text style={styles.nameText}>New Name: {createdUser.name}</Text>
             <Text style={styles.emailText}>New Job: {createdUser.job}</Text>
+          </View>
+        </View>
+      )}
+      {updatedUser && (
+        <View style={styles.userContainer}>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.nameText}>New Name: {updatedUser.name}</Text>
+            <Text style={styles.emailText}>New Job: {updatedUser.job}</Text>
+          </View>
+        </View>
+      )}
+      {patchUpdatedUser && (
+        <View style={styles.userContainer}>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.nameText}>New Name: {patchUpdatedUser.name}</Text>
+            <Text style={styles.emailText}>New Job: {patchUpdatedUser.job}</Text>
           </View>
         </View>
       )}
@@ -133,8 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveSize(60),
   },
   addButton: {
-    padding: ResponsiveSize(15),
-    marginHorizontal: ResponsiveSize(100),
+    padding: ResponsiveSize(10),
     alignItems: 'center',
     marginVertical: ResponsiveSize(20),
     borderWidth: 1,
@@ -143,7 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white'
   },
   buttonText: {
-    fontSize: ResponsiveSize(25),
+    fontSize: ResponsiveSize(17),
   },
 });
 
