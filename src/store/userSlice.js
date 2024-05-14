@@ -115,6 +115,52 @@ export const deleteUser = createAsyncThunk(
   },
 );
 
+export const createUser = createAsyncThunk(
+  'user/createUser',
+  async ({name, job}, {rejectWithValue}) => {
+    try {
+      const response = await api.post('users', {name, job});
+      console.log('Create User API Response:', response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
+);
+
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async ({userId, name, job}, {rejectWithValue}) => {
+    try {
+      const response = await api.put(`users/${userId}`, {name, job});
+      console.log('Update User PUT API Response:', response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
+);
+
+export const updateUserPatch = createAsyncThunk(
+  'user/updateUserPatch',
+  async ({userId, name, job}, {rejectWithValue}) => {
+    try {
+      const response = await api.patch(`users/${userId}`, {name, job});
+      console.log('Update User PATCH API Response:', response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response ? error.response.data : error.message,
+      );
+    }
+  },
+);
+
+
 const initialState = {
   user: [null],
   additionalData: [null],
@@ -188,6 +234,18 @@ const userSlice = createSlice({
         );
       })
       .addCase(deleteUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action?.error?.message;
+      })
+      .addCase(createUser.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+          state.loading = false;
+          state.user = action.payload;
+      })
+      .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action?.error?.message;
       });

@@ -10,7 +10,6 @@ const UserListingDetails = ({route,navigation}) => {
   const userDetails = useSelector(state =>
     state?.user?.find(user => user.id === userId),
   );
-  // console.log('userdetails in screen', userDetails);
 
   useEffect(() => {
     dispatch(fetchUserDetails(userId));
