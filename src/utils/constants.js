@@ -1,5 +1,4 @@
-export const IMAGES = {
-};
+export const IMAGES = {};
 
 export const COLORS = {
   background: '#F9E8C9',

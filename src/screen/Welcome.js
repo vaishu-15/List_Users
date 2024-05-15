@@ -4,7 +4,6 @@ import ResponsiveSize from '../utils/responsiveSize';
 import {COLORS} from '../utils/constants';
 
 const Welcome = ({navigation}) => {
-
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
@@ -14,7 +13,7 @@ const Welcome = ({navigation}) => {
         <Image
           source={require('../../assets/images/working.png')}
           style={styles.img}
-          resizeMode='center'
+          resizeMode="center"
         />
       </View>
       <TouchableOpacity
@@ -44,10 +43,10 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveSize(20),
   },
   welcomeImg: {
-     alignSelf: 'center',
+    alignSelf: 'center',
     //  backgroundColor:'black',
-     margin:ResponsiveSize(-50),
-     alignItems:'center',
+    margin: ResponsiveSize(-50),
+    alignItems: 'center',
   },
   img: {
     // width:ResponsiveSize(00)

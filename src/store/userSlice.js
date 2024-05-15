@@ -261,18 +261,18 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       });
-      // .addCase(fetchDataWithDelay.pending, state => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(fetchDataWithDelay.fulfilled, (state, action) => {
-      //   state.loading = false;
-      //   state.user = action.payload;
-      // })
-      // .addCase(fetchDataWithDelay.rejected, (state, action) => {
-      //   state.loading = false;
-      //   state.error = action?.error?.message;
-      // });
+    // .addCase(fetchDataWithDelay.pending, state => {
+    //   state.loading = true;
+    //   state.error = null;
+    // })
+    // .addCase(fetchDataWithDelay.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   state.user = action.payload;
+    // })
+    // .addCase(fetchDataWithDelay.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action?.error?.message;
+    // });
   },
 });
 
