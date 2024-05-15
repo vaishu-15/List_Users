@@ -1,29 +1,53 @@
-import React, {useEffect} from 'react';
-import {View, FlatList,Text,StyleSheet, TouchableOpacity,Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteUser, list} from '../store/userSlice';
+import {deleteUser, list, fetchDataWithDelay} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 
 const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
-
+  // const [isLoading, setIsLoading] = useState(false);
   const listData = useSelector(state => state?.user);
-  // console.log('listing data', listData);
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   dispatch(fetchDataWithDelay())
+  //     .then(() => {
+  //       setIsLoading(false);
+  //     })
+  //     .catch(() => {
+  //       setIsLoading(false);
+  //     });
+  // }, [dispatch]);
 
   useEffect(() => {
     dispatch(list());
   }, [list]);
 
-   const handleUserPress = userId => {
-     navigation.navigate('UserListingDetails', {userId});
-   };
+  const handleUserPress = userId => {
+    navigation.navigate('UserListingDetails', {userId});
+  };
 
-    const handleDeleteUser = userId => {
-      dispatch(deleteUser(userId));
-    };
+  const handleDeleteUser = userId => {
+    dispatch(deleteUser(userId));
+  };
 
   return (
     <View style={styles.container}>
+      {/* {isLoading ? (
+        <ActivityIndicator
+          style={{marginTop: '80%'}}
+          size="large"
+          color="#0000ff"
+        />
+      ) : ( */}
       <View style={styles.listContainer}>
         <Text style={styles.listHeading}>List of users</Text>
         <FlatList
@@ -31,32 +55,18 @@ const UserListing = ({navigation}) => {
           renderItem={({item}) => (
             <View style={styles.list}>
               <TouchableOpacity onPress={() => handleUserPress(item.id)}>
-                <Image
-                  source={{uri: item.avatar}}
-                  style={{
-                    width: ResponsiveSize(80),
-                    height: ResponsiveSize(80),
-                    borderRadius: ResponsiveSize(40),
-                  }}
-                />
+                <Image source={{uri: item.avatar}} style={styles.profile} />
               </TouchableOpacity>
-              <View style={{flex: 1, marginLeft: ResponsiveSize(30),justifyContent:'center'}}>
-                <Text
-                  style={{
-                    fontWeight: '700',
-                    fontSize: ResponsiveSize(20),
-                  }}>
+              <View style={styles.detailContainer}>
+                <Text style={styles.name}>
                   {item.first_name} {item.last_name}
                 </Text>
-                <Text style={{fontSize: ResponsiveSize(17)}}>{item.email}</Text>
+                <Text style={styles.email}>{item.email}</Text>
               </View>
               <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
                 <Image
                   source={require('../../assets/images/remove.png')}
-                  style={{
-                    width: ResponsiveSize(30),
-                    height: ResponsiveSize(30),
-                  }}
+                  style={styles.remove}
                 />
               </TouchableOpacity>
             </View>
@@ -68,6 +78,7 @@ const UserListing = ({navigation}) => {
           <Text style={styles.btnText}>Continue to Next page</Text>
         </TouchableOpacity>
       </View>
+      {/* )} */}
     </View>
   );
 };
@@ -79,8 +90,8 @@ const styles = StyleSheet.create({
     margin: ResponsiveSize(15),
     borderRadius: ResponsiveSize(20),
     backgroundColor: 'white',
-    flexDirection:'row',
-    justifyContent:'space-between'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   container: {
     flex: 1,
@@ -105,7 +116,28 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: ResponsiveSize(20),
     color: '#F5E8C7',
-    textAlign:'center'
+    textAlign: 'center',
+  },
+  profile: {
+    width: ResponsiveSize(80),
+    height: ResponsiveSize(80),
+    borderRadius: ResponsiveSize(40),
+  },
+  detailContainer: {
+    flex: 1,
+    marginLeft: ResponsiveSize(30),
+    justifyContent: 'center',
+  },
+  name: {
+    fontWeight: '700',
+    fontSize: ResponsiveSize(20),
+  },
+  email: {
+    fontSize: ResponsiveSize(17),
+  },
+  remove: {
+    width: ResponsiveSize(30),
+    height: ResponsiveSize(30),
   },
 });
 
