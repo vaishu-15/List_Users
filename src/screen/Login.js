@@ -12,7 +12,7 @@ import {
 import ResponsiveSize from '../utils/responsiveSize';
 import {useDispatch} from 'react-redux';
 import {login} from '../store/userSlice';
-import { COLORS } from '../utils/constants';
+import {COLORS} from '../utils/constants';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
