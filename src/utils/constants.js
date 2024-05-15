@@ -8,4 +8,5 @@ export const COLORS = {
   button: '#503C3C',
   field: '#3E323299',
   login: '#A87C7C',
+  welcome: '#E4C59E',
 };
