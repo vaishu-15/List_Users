@@ -44,7 +44,7 @@ const Login = ({navigation}) => {
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
-              placeholderTextColor={'white'}
+              placeholderTextColor={COLORS.contain}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -53,7 +53,7 @@ const Login = ({navigation}) => {
               placeholder="Password"
               value={password}
               onChangeText={setPassword}
-              placeholderTextColor={'white'}
+              placeholderTextColor={COLORS.contain}
               secureTextEntry
             />
           </View>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     padding: ResponsiveSize(20),
   },
   inputContainer: {
-    backgroundColor: COLORS.background,
+    backgroundColor: COLORS.field,
     padding: ResponsiveSize(20),
     borderRadius: ResponsiveSize(20),
     marginVertical: ResponsiveSize(10),
