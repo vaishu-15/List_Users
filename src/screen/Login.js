@@ -12,6 +12,7 @@ import {
 import ResponsiveSize from '../utils/responsiveSize';
 import {useDispatch} from 'react-redux';
 import {login} from '../store/userSlice';
+import { COLORS } from '../utils/constants';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
@@ -74,30 +75,29 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#FEFAF6',
   },
   fields: {
     marginTop: '60%',
     padding: ResponsiveSize(20),
   },
   inputContainer: {
-    backgroundColor: '#3E323299',
+    backgroundColor: COLORS.background,
     padding: ResponsiveSize(20),
     borderRadius: ResponsiveSize(20),
     marginVertical: ResponsiveSize(10),
   },
   input: {
-    color: 'white',
+    color: COLORS.contain,
     fontSize: ResponsiveSize(20),
   },
   loginButton: {
     padding: ResponsiveSize(20),
     borderRadius: ResponsiveSize(20),
-    backgroundColor: '#A87C7C',
+    backgroundColor: COLORS.login,
     marginTop: ResponsiveSize(20),
   },
   loginButtonText: {
-    color: 'white',
+    color: COLORS.contain,
     fontSize: ResponsiveSize(20),
     textAlign: 'center',
   },
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   sign: {
     fontSize: ResponsiveSize(15),
     fontWeight: '700',
-    color: '#3E323299',
+    color: COLORS.field,
   },
 });
 

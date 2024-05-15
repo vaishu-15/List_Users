@@ -8,6 +8,7 @@ import {
   updateUserPatch,
 } from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
+import { COLORS } from '../utils/constants';
 
 const UserDetails = ({route, navigation}) => {
   const {userIdDetails} = route.params;
@@ -16,11 +17,15 @@ const UserDetails = ({route, navigation}) => {
     state?.additionalData?.find(user => user.id === userIdDetails),
   );
   const [createdUser, setCreatedUser] = useState(null);
+  const [updatedUser, setUpdatedUser] = useState(null);
+  const [patchUpdatedUser, setPatchUpdatedUser] = useState(null);
+  const [actionType, setActionType] = useState(null);
 
   const handleCreateUser = () => {
     dispatch(createUser({name: 'morpheus', job: 'leader'})).then(result => {
       if (!result.error) {
         setCreatedUser(result.payload);
+        setActionType('create');
       }
     });
   };
@@ -33,14 +38,13 @@ const UserDetails = ({route, navigation}) => {
     dispatch(
       updateUser({
         userId: userIdDetails,
-        name: 'Updated Name',
-        job: 'Updated Job',
+        name: 'morpheus',
+        job: 'zion resident',
       }),
     ).then(result => {
       if (!result.error) {
-        console.log('Update User PUT Response:', result.payload);
-      } else {
-        console.error('Error updating user:', result.error);
+        setUpdatedUser(result.payload);
+        setActionType('put');
       }
     });
   };
@@ -49,14 +53,13 @@ const UserDetails = ({route, navigation}) => {
     dispatch(
       updateUserPatch({
         userId: userIdDetails,
-        name: 'Patched Name',
-        job: 'Patched Job',
+        name: 'morpheus',
+        job: 'zion resident',
       }),
     ).then(result => {
       if (!result.error) {
-        console.log('Update User PATCH Response:', result.payload);
-      } else {
-        console.error('Error updating user:', result.error);
+        setPatchUpdatedUser(result.payload);
+        setActionType('patch');
       }
     });
   };
@@ -80,14 +83,48 @@ const UserDetails = ({route, navigation}) => {
           </View>
         </View>
       )}
-      <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
-        <Text style={styles.buttonText}>Create User</Text>
-      </TouchableOpacity>
-      {createdUser && (
+      <View style={styles.buttonRow}>
+        <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
+          <Text style={styles.buttonText}>Create</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleUpdateUserPut}
+          style={styles.addButton}>
+          <Text style={styles.buttonText}>Update(PUT)</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleUpdateUserPatch}
+          style={styles.addButton}>
+          <Text style={styles.buttonText}>Update(PATCH)</Text>
+        </TouchableOpacity>
+      </View>
+      {actionType === 'create' && createdUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
-            <Text style={styles.nameText}>New Name: {createdUser.name}</Text>
-            <Text style={styles.emailText}>New Job: {createdUser.job}</Text>
+            <Text style={styles.nameText}> Name: {createdUser.name}</Text>
+            <Text style={styles.emailText}>Job: {createdUser.job}</Text>
+          </View>
+        </View>
+      )}
+      {actionType === 'put' && updatedUser && (
+        <View style={styles.userContainer}>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.nameText}>
+              Name: {updatedUser.name}
+            </Text>
+            <Text style={styles.emailText}>Job: {updatedUser.job}</Text>
+          </View>
+        </View>
+      )}
+      {actionType === 'patch' && patchUpdatedUser && (
+        <View style={styles.userContainer}>
+          <View style={styles.detailsContainer}>
+            <Text style={styles.nameText}>
+              Name: {patchUpdatedUser.name}
+            </Text>
+            <Text style={styles.emailText}>
+              Job: {patchUpdatedUser.job}
+            </Text>
           </View>
         </View>
       )}
@@ -98,12 +135,12 @@ const UserDetails = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9E8C9',
+    backgroundColor: COLORS.background,
     padding: ResponsiveSize(20),
     justifyContent: 'center',
   },
   userContainer: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.contain,
     padding: ResponsiveSize(50),
     borderRadius: ResponsiveSize(10),
     width: '100%',
@@ -116,7 +153,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveSize(10),
   },
   detailsContainer: {
-    // alignItems: 'center',
+    alignItems: 'center',
   },
   nameText: {
     fontSize: ResponsiveSize(24),
@@ -133,17 +170,21 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveSize(60),
   },
   addButton: {
-    padding: ResponsiveSize(15),
-    marginHorizontal: ResponsiveSize(100),
+    padding: ResponsiveSize(10),
     alignItems: 'center',
     marginVertical: ResponsiveSize(20),
     borderWidth: 1,
-    borderRadius:ResponsiveSize(8),
-    shadowOpacity:0.5,
-    backgroundColor:'white'
+    borderRadius: ResponsiveSize(8),
+    shadowOpacity: 0.5,
+    backgroundColor: COLORS.contain,
   },
   buttonText: {
-    fontSize: ResponsiveSize(25),
+    fontSize: ResponsiveSize(17),
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: ResponsiveSize(20),
   },
 });
 

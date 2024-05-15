@@ -1,7 +1,11 @@
 export const IMAGES = {
-//   logo: require('../../assets/images/D.png'),
 };
 
 export const COLORS = {
-  background: '#A259FF', 
+  background: '#F9E8C9',
+  contain: '#FFFFFF',
+  text: '#000000',
+  button: '#503C3C',
+  field: '#3E323299',
+  login: '#A87C7C',
 };

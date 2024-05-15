@@ -10,6 +10,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {listAdd} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
+import { COLORS } from '../utils/constants';
 
 const Users = ({navigation}) => {
   const dispatch = useDispatch();
@@ -34,30 +35,16 @@ const Users = ({navigation}) => {
             <>
               <View style={styles.list}>
                 <TouchableOpacity onPress={() => handleUserPress(item.id)}>
-                  <Text
-                    style={{fontWeight: '600', fontSize: ResponsiveSize(25)}}>
-                    {' '}
-                    {item.name}
-                  </Text>
+                  <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{fontSize: ResponsiveSize(20)}}>
-                    {' '}
+                <View style={styles.details}>
+                  <Text style={styles.year}>
+                    {''}
                     {item.year}
                   </Text>
-                  <Text style={{fontSize: ResponsiveSize(20)}}>
-                    {item.pantone_value}
-                  </Text>
+                  <Text style={styles.pantoneValue}>{item.pantone_value}</Text>
                 </View>
-                <Text
-                  style={{alignSelf: 'flex-end', fontSize: ResponsiveSize(18)}}>
-                  {item.color}
-                </Text>
+                <Text style={styles.color}>{item.color}</Text>
               </View>
             </>
           )}
@@ -74,16 +61,15 @@ const Users = ({navigation}) => {
 const styles = StyleSheet.create({
   list: {
     padding: ResponsiveSize(10),
-    borderWidth: 1 ,
+    borderWidth: 1,
     margin: ResponsiveSize(15),
     borderRadius: ResponsiveSize(20),
-    backgroundColor: 'white',
-    flexDirection:'column',
-
+    backgroundColor: COLORS.contain,
+    flexDirection: 'column',
   },
   container: {
     flex: 1,
-    backgroundColor: '#F9E8C9',
+    backgroundColor: COLORS.background,
   },
   listContainer: {
     marginTop: ResponsiveSize(80),
@@ -95,7 +81,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonContainer: {
-    backgroundColor: '#503C3C',
+    backgroundColor: COLORS.button,
     padding: ResponsiveSize(20),
     margin: ResponsiveSize(20),
     borderRadius: ResponsiveSize(10),
@@ -103,8 +89,27 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: ResponsiveSize(20),
-    color: '#F5E8C7',
+    color: COLORS.contain,
     textAlign: 'center',
+  },
+  name: {
+    fontWeight: '600',
+    fontSize: ResponsiveSize(25),
+  },
+  details: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  year: {
+    fontSize: ResponsiveSize(20),
+  },
+  pantoneValue: {
+    fontSize: ResponsiveSize(20),
+  },
+  color: {
+    alignSelf: 'flex-end',
+    fontSize: ResponsiveSize(18),
   },
 });
 

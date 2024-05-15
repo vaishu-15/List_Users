@@ -6,7 +6,6 @@ import Login from "../screen/Login";
 import SignUp from "../screen/SignUp";
 import UserListing from "../screen/UserListing";
 import Users from "../screen/Users";
-import Create from "../screen/CreateUser";
 import UserListingDetails from "../screen/UserListingDetails";
 import UserDetails from "../screen/UsersDetails";
 
