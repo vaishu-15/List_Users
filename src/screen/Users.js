@@ -10,7 +10,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {listAdd} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
-import { COLORS } from '../utils/constants';
+import {COLORS} from '../utils/constants';
 
 const Users = ({navigation}) => {
   const dispatch = useDispatch();
