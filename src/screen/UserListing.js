@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {deleteUser, list, fetchDataWithDelay} from '../store/userSlice';
+import {deleteUser, list} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
 import { COLORS } from '../utils/constants';
 
@@ -30,7 +30,7 @@ const UserListing = ({navigation}) => {
 
   useEffect(() => {
     dispatch(list());
-  }, [list]);
+  }, [listData]);
 
   const handleUserPress = userId => {
     navigation.navigate('UserListingDetails', {userId});
