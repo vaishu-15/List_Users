@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {
@@ -8,7 +8,7 @@ import {
   updateUserPatch,
 } from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
-import { COLORS } from '../utils/constants';
+import {COLORS} from '../utils/constants';
 
 const UserDetails = ({route, navigation}) => {
   const {userIdDetails} = route.params;
@@ -109,9 +109,7 @@ const UserDetails = ({route, navigation}) => {
       {actionType === 'put' && updatedUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
-            <Text style={styles.nameText}>
-              Name: {updatedUser.name}
-            </Text>
+            <Text style={styles.nameText}>Name: {updatedUser.name}</Text>
             <Text style={styles.emailText}>Job: {updatedUser.job}</Text>
           </View>
         </View>
@@ -119,12 +117,8 @@ const UserDetails = ({route, navigation}) => {
       {actionType === 'patch' && patchUpdatedUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
-            <Text style={styles.nameText}>
-              Name: {patchUpdatedUser.name}
-            </Text>
-            <Text style={styles.emailText}>
-              Job: {patchUpdatedUser.job}
-            </Text>
+            <Text style={styles.nameText}>Name: {patchUpdatedUser.name}</Text>
+            <Text style={styles.emailText}>Job: {patchUpdatedUser.job}</Text>
           </View>
         </View>
       )}
