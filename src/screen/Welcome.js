@@ -5,11 +5,17 @@ import {COLORS} from '../utils/constants';
 
 const Welcome = ({navigation}) => {
 
-
   return (
     <View style={styles.container}>
       <View style={styles.welcomeContainer}>
         <Text style={styles.welcome}>Welcome</Text>
+      </View>
+      <View style={styles.welcomeImg}>
+        <Image
+          source={require('../../assets/images/working.png')}
+          style={styles.img}
+          resizeMode='center'
+        />
       </View>
       <TouchableOpacity
         style={styles.btn}
@@ -26,7 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
   },
   welcomeContainer: {
     // marginHorizontal:ResponsiveSize(20)
@@ -38,11 +44,14 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveSize(20),
   },
   welcomeImg: {
-    alignSelf: 'center',
+     alignSelf: 'center',
     //  backgroundColor:'black',
-    //  width:'100%',
+     margin:ResponsiveSize(-50),
+     alignItems:'center',
   },
-  img: {},
+  img: {
+    // width:ResponsiveSize(00)
+  },
   btn: {
     alignItems: 'center',
     backgroundColor: COLORS.button,
