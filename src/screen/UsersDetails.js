@@ -18,11 +18,13 @@ const UserDetails = ({route, navigation}) => {
   const [createdUser, setCreatedUser] = useState(null);
   const [updatedUser, setUpdatedUser] = useState(null);
   const [patchUpdatedUser, setPatchUpdatedUser] = useState(null);
+  const [actionType, setActionType] = useState(null);
 
   const handleCreateUser = () => {
     dispatch(createUser({name: 'morpheus', job: 'leader'})).then(result => {
       if (!result.error) {
         setCreatedUser(result.payload);
+        setActionType('create');
       }
     });
   };
@@ -40,9 +42,8 @@ const UserDetails = ({route, navigation}) => {
       }),
     ).then(result => {
       if (!result.error) {
-        console.log('Update User PUT Response:', result.payload);
-      } else {
-        console.error('Error updating user:', result.error);
+        setUpdatedUser(result.payload);
+        setActionType('put');
       }
     });
   };
@@ -56,9 +57,8 @@ const UserDetails = ({route, navigation}) => {
       }),
     ).then(result => {
       if (!result.error) {
-        console.log('Update User PATCH Response:', result.payload);
-      } else {
-        console.error('Error updating user:', result.error);
+        setPatchUpdatedUser(result.payload);
+        setActionType('patch');
       }
     });
   };
@@ -82,43 +82,48 @@ const UserDetails = ({route, navigation}) => {
           </View>
         </View>
       )}
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}>
+      <View style={styles.buttonRow}>
         <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
           <Text style={styles.buttonText}>Create</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
+        <TouchableOpacity
+          onPress={handleUpdateUserPut}
+          style={styles.addButton}>
           <Text style={styles.buttonText}>Update(PUT)</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleCreateUser} style={styles.addButton}>
+        <TouchableOpacity
+          onPress={handleUpdateUserPatch}
+          style={styles.addButton}>
           <Text style={styles.buttonText}>Update(PATCH)</Text>
         </TouchableOpacity>
       </View>
-      {createdUser && (
+      {actionType === 'create' && createdUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
-            <Text style={styles.nameText}>New Name: {createdUser.name}</Text>
-            <Text style={styles.emailText}>New Job: {createdUser.job}</Text>
+            <Text style={styles.nameText}> Name: {createdUser.name}</Text>
+            <Text style={styles.emailText}>Job: {createdUser.job}</Text>
           </View>
         </View>
       )}
-      {updatedUser && (
+      {actionType === 'put' && updatedUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
-            <Text style={styles.nameText}>New Name: {updatedUser.name}</Text>
-            <Text style={styles.emailText}>New Job: {updatedUser.job}</Text>
+            <Text style={styles.nameText}>
+              Name: {updatedUser.name}
+            </Text>
+            <Text style={styles.emailText}>Job: {updatedUser.job}</Text>
           </View>
         </View>
       )}
-      {patchUpdatedUser && (
+      {actionType === 'patch' && patchUpdatedUser && (
         <View style={styles.userContainer}>
           <View style={styles.detailsContainer}>
-            <Text style={styles.nameText}>New Name: {patchUpdatedUser.name}</Text>
-            <Text style={styles.emailText}>New Job: {patchUpdatedUser.job}</Text>
+            <Text style={styles.nameText}>
+              Name: {patchUpdatedUser.name}
+            </Text>
+            <Text style={styles.emailText}>
+              Job: {patchUpdatedUser.job}
+            </Text>
           </View>
         </View>
       )}
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
     marginBottom: ResponsiveSize(10),
   },
   detailsContainer: {
-    // alignItems: 'center',
+    alignItems: 'center',
   },
   nameText: {
     fontSize: ResponsiveSize(24),
@@ -168,12 +173,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: ResponsiveSize(20),
     borderWidth: 1,
-    borderRadius:ResponsiveSize(8),
-    shadowOpacity:0.5,
-    backgroundColor:'white'
+    borderRadius: ResponsiveSize(8),
+    shadowOpacity: 0.5,
+    backgroundColor: 'white',
   },
   buttonText: {
     fontSize: ResponsiveSize(17),
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: ResponsiveSize(20),
   },
 });
 
