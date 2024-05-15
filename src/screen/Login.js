@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: COLORS.field,
-    padding: ResponsiveSize(20),
+    padding: ResponsiveSize(15),
     borderRadius: ResponsiveSize(20),
     marginVertical: ResponsiveSize(10),
   },
