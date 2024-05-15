@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View,TouchableOpacity} from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';
+import { COLORS } from '../utils/constants';
 
 const Welcome = ({navigation}) => {
 
@@ -19,8 +20,8 @@ const Welcome = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
-    alignItems:'center'
+    backgroundColor: COLORS.text,
+    alignItems: 'center',
   },
   welcomeContainer: {
     padding: ResponsiveSize(100),
@@ -29,20 +30,20 @@ const styles = StyleSheet.create({
     color: '#E4C59E',
     fontSize: ResponsiveSize(40),
     fontWeight: '700',
-    marginTop:ResponsiveSize(20)
+    marginTop: ResponsiveSize(20),
   },
-  btn:{
-    alignItems:'center',
-    backgroundColor:'#E4C59E',
-    padding:ResponsiveSize(20),
-    width:'90%',
-    marginTop:'90%',
-    borderRadius:ResponsiveSize(8)
+  btn: {
+    alignItems: 'center',
+    backgroundColor: COLORS.background,
+    padding: ResponsiveSize(20),
+    width: '90%',
+    marginTop: '90%',
+    borderRadius: ResponsiveSize(8),
   },
-  btnText:{
-    color:'black',
-    fontSize:20
-  }
+  btnText: {
+    color: COLORS.text,
+    fontSize: ResponsiveSize(20),
+  },
 });
 
 export default Welcome;

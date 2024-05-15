@@ -8,6 +8,7 @@ import {
   updateUserPatch,
 } from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
+import { COLORS } from '../utils/constants';
 
 const UserDetails = ({route, navigation}) => {
   const {userIdDetails} = route.params;
@@ -134,12 +135,12 @@ const UserDetails = ({route, navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9E8C9',
+    backgroundColor: COLORS.background,
     padding: ResponsiveSize(20),
     justifyContent: 'center',
   },
   userContainer: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.contain,
     padding: ResponsiveSize(50),
     borderRadius: ResponsiveSize(10),
     width: '100%',
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: ResponsiveSize(8),
     shadowOpacity: 0.5,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.contain,
   },
   buttonText: {
     fontSize: ResponsiveSize(17),

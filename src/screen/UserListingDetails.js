@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity,Image, StyleSheet} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchUserDetails} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
+import { COLORS } from '../utils/constants';
 
 const UserListingDetails = ({route,navigation}) => {
   const {userId} = route.params;
@@ -42,12 +43,12 @@ const UserListingDetails = ({route,navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9E8C9',
+    backgroundColor: COLORS.background,
     padding: ResponsiveSize(20),
-    justifyContent:'center'
+    justifyContent: 'center',
   },
   userContainer: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.contain,
     padding: ResponsiveSize(50),
     borderRadius: ResponsiveSize(10),
     width: '100%',

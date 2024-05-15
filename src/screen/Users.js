@@ -10,6 +10,7 @@ import {
 import {useSelector, useDispatch} from 'react-redux';
 import {listAdd} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
+import { COLORS } from '../utils/constants';
 
 const Users = ({navigation}) => {
   const dispatch = useDispatch();
@@ -63,12 +64,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: ResponsiveSize(15),
     borderRadius: ResponsiveSize(20),
-    backgroundColor: 'white',
+    backgroundColor: COLORS.contain,
     flexDirection: 'column',
   },
   container: {
     flex: 1,
-    backgroundColor: '#F9E8C9',
+    backgroundColor: COLORS.background,
   },
   listContainer: {
     marginTop: ResponsiveSize(80),
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   buttonContainer: {
-    backgroundColor: '#503C3C',
+    backgroundColor: COLORS.button,
     padding: ResponsiveSize(20),
     margin: ResponsiveSize(20),
     borderRadius: ResponsiveSize(10),
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: ResponsiveSize(20),
-    color: '#F5E8C7',
+    color: COLORS.contain,
     textAlign: 'center',
   },
   name: {
