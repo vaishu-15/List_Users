@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import Pdf from 'react-native-pdf';
+import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize'; 
+import Pdf from 'react-native-pdf';
 
 const SelectedFilesScreen = ({route}) => {
   const {selectedFiles} = route.params;
@@ -12,7 +12,9 @@ const SelectedFilesScreen = ({route}) => {
         return (
           <View key={index} style={styles.fileContainer}>
             <Text style={styles.fileName}>{file.name}</Text>
-            <Text>{file.content}</Text>{' '}
+            <ScrollView style={styles.fileContentContainer}>
+              <Text>{file.content}</Text>{' '}
+            </ScrollView>
           </View>
         );
       } else if (file.type.startsWith('image/')) {
@@ -40,7 +42,9 @@ const SelectedFilesScreen = ({route}) => {
     });
   };
 
-  return <View style={styles.container}>{renderFileContent()}</View>;
+  return (
+    <ScrollView style={styles.container}>{renderFileContent()}</ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -57,15 +61,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: ResponsiveSize(10),
   },
+  fileContentContainer: {
+    maxHeight: ResponsiveSize(200), 
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: ResponsiveSize(10),
+  },
   image: {
     width: '100%',
     height: ResponsiveSize(200),
     resizeMode: 'contain',
-  },
-  pdf: {
-    flex: 1,
-    width: '100%',
-    height: ResponsiveSize(200),
   },
 });
 
