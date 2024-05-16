@@ -177,6 +177,7 @@ export const updateUserPatch = createAsyncThunk(
 const initialState = {
   user: [null],
   additionalData: [null],
+  selectedFiles: [null],
   error: [null],
   loading: false,
 };
@@ -184,7 +185,11 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedFiles(state, action) {
+      state.selectedFiles = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(register.pending, state => {
@@ -276,6 +281,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {userActions, addUser} = userSlice.actions;
+export const {userActions, addUser, setSelectedFiles} = userSlice.actions;
 
 export default userSlice.reducer;

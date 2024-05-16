@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   TextInput,
@@ -12,11 +12,42 @@ import ResponsiveSize from '../utils/responsiveSize';
 import {useDispatch} from 'react-redux';
 import {login} from '../store/userSlice';
 import {COLORS} from '../utils/constants';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
   const [password, setPassword] = useState('cityslicka');
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    GoogleSignin.configure();
+  }, []);
+
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      navigation.navigate('UserListing');
+      console.log(login,userInfo)
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log(error);
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log(error);
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log(error);
+        // play services not available or outdated
+      } else {
+        console.log(error);
+        // some other error happened
+      }
+    }
+  };
 
   const handleLogin = () => {
     dispatch(login({email, password})).then(result => {
@@ -58,6 +89,9 @@ const Login = ({navigation}) => {
           </View>
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginButton} onPress={signIn}>
+            <Text style={styles.loginButtonText}>Google Login</Text>
           </TouchableOpacity>
           <View style={styles.signUp}>
             <Text style={styles.question}>Don't have an account ? </Text>
