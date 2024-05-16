@@ -23,7 +23,8 @@ const UserListingDetails = ({route, navigation}) => {
        const res = await DocumentPicker.pick({
          type: [DocumentPicker.types.allFiles],
        });
-       setSelectedFiles(res);
+       setSelectedFiles(res.uri);
+       navigation.navigate('Document', {selectedFiles: res});
      } catch (err) {
        if (DocumentPicker.isCancel(err)) {
          console.log('Document picker cancelled.');
