@@ -54,7 +54,7 @@ const UserListingDetails = ({route, navigation}) => {
           </View>
         </View>
       )}
-
+{/* 
       {selectedFiles && (
         <View style={styles.selectedFilesContainer}>
           <Text style={styles.selectedFilesText}>Selected Files:</Text>
@@ -64,7 +64,7 @@ const UserListingDetails = ({route, navigation}) => {
             </Text>
           ))}
         </View>
-      )}
+      )} */}
       <Button title="Choose Document" onPress={handleDocumentPick} style={styles.documentButton}/>
     </View>
   );
