@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
   backButton: {
     fontSize: ResponsiveSize(18),
     marginBottom: ResponsiveSize(10),
+    fontWeight: 'bold',
   },
   detailsContainer: {
     alignItems: 'center',
