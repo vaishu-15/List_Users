@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Text,
   ImageBackground,
-  ScrollView,
   Alert,
 } from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';

@@ -39,7 +39,6 @@ const Users = ({navigation}) => {
                 </TouchableOpacity>
                 <View style={styles.details}>
                   <Text style={styles.year}>
-                    {''}
                     {item.year}
                   </Text>
                   <Text style={styles.pantoneValue}>{item.pantone_value}</Text>
