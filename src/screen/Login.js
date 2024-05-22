@@ -7,6 +7,7 @@ import {
   Text,
   ImageBackground,
   Alert,
+  Image
 } from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';
 import {useDispatch} from 'react-redux';
@@ -16,35 +17,42 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
   const [password, setPassword] = useState('cityslicka');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    GoogleSignin.configure();
-  }, []);
+   useEffect(() => {
+     GoogleSignin.configure({
+       webClientId:
+         '326657361812-ovn5hd4460joj4s4mpmv7u7fm0bj9r5a.apps.googleusercontent.com',
+     });
+   }, []);
 
   const signIn = async () => {
     try {
+      await GoogleSignin.signOut();
+
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      navigation.navigate('UserListing');
-      console.log(login,userInfo)
+      const idToken = await userInfo.idToken;
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      await auth().signInWithCredential(googleCredential);
+
+      console.log('User signed in:', userInfo);
     } catch (error) {
+      console.error('Google sign-in error:', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log(error);
-        // user cancelled the login flow
+        console.log('User cancelled the login flow');
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(error);
-        // operation (e.g. sign in) is in progress already
+        console.log('Operation (e.g. sign in) is in progress already');
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log(error);
-        // play services not available or outdated
+        console.log('Play services not available or outdated');
       } else {
-        console.log(error);
-        // some other error happened
+        console.log('Some other error happened', error);
       }
     }
   };
@@ -59,6 +67,11 @@ const Login = ({navigation}) => {
       }
     });
   };
+
+  const usersCollection =  firestore().collection('Users').get();
+  // const userDocument = firestore().collection('users').doc('ABC');
+  // console.log('usersCollection', usersCollection.docs[0]);
+
 
   return (
     <View style={styles.container}>
@@ -90,12 +103,14 @@ const Login = ({navigation}) => {
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButton} onPress={signIn}>
-            <Text style={styles.loginButtonText}>Google Login</Text>
+          <TouchableOpacity style={styles.googleLogin} onPress={signIn}>
+          <Image source={require('../../assets/images/google.png')}
+          style={{width:ResponsiveSize(50),height:ResponsiveSize(50)}}/>
+            {/* <Text style={styles.loginButtonText}>Google Login</Text> */}
           </TouchableOpacity>
           <View style={styles.signUp}>
             <Text style={styles.question}>Don't have an account ? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>          
               <Text style={styles.sign}>Sign Up</Text>
             </TouchableOpacity>
           </View>
@@ -128,6 +143,10 @@ const styles = StyleSheet.create({
     borderRadius: ResponsiveSize(20),
     backgroundColor: COLORS.login,
     marginTop: ResponsiveSize(20),
+  },
+  googleLogin:{
+    marginVertical:ResponsiveSize(20),
+    alignSelf:'center'
   },
   loginButtonText: {
     color: COLORS.contain,
