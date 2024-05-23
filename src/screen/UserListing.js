@@ -6,61 +6,65 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  TextInput,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {deleteUser, list} from '../store/userSlice';
 import ResponsiveSize from '../utils/responsiveSize';
-import { COLORS } from '../utils/constants';
+import {COLORS} from '../utils/constants';
+import firestore from '@react-native-firebase/firestore';
 
 const UserListing = ({navigation}) => {
   const dispatch = useDispatch();
-  // const [isLoading, setIsLoading] = useState(false);
-  const listData = useSelector(state => state?.user);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   dispatch(fetchDataWithDelay())
-  //     .then(() => {
-  //       setIsLoading(false);
-  //     })
-  //     .catch(() => {
-  //       setIsLoading(false);
-  //     });
-  // }, [dispatch]);
+  const [userData, setUserData] = useState('');
+
+  // const listData = useSelector(state => state?.user);
+
+  const getData = async () => {
+    const usersCollection = await firestore().collection('users').get();
+    const data = usersCollection.docs.map(doc => ({
+    ...doc.data(),
+    }));
+    console.log(data)
+    setUserData(data);
+  //   const userDocument =firestore().collection('users').add({
+  //   name: 'sejal',
+  //   email: 'vaishali@gmail.com',
+  // })
+  };
 
   useEffect(() => {
-    dispatch(list());
-  }, [listData]);
+    getData();
+  }, []);
+
+  // useEffect(() => {
+  //   dispatch(list());
+  // }, [listData]);
 
   const handleUserPress = userId => {
     navigation.navigate('UserListingDetails', {userId});
   };
 
-  const handleDeleteUser = userId => {
-    dispatch(deleteUser(userId));
-  };
+  // const handleDeleteUser = userId => {
+  //   dispatch(deleteUser(userId));
+  // };
 
   return (
     <View style={styles.container}>
-      {/* {isLoading ? (
-        <ActivityIndicator
-          style={{marginTop: '80%'}}
-          size="large"
-          color="#0000ff"
-        />
-      ) : ( */}
       <View style={styles.listContainer}>
         <Text style={styles.listHeading}>List of users</Text>
         <FlatList
-          data={listData}
+          data={userData}
           renderItem={({item}) => (
             <View style={styles.list}>
-              <TouchableOpacity onPress={() => handleUserPress(item.id)}>
+              {/* <TouchableOpacity onPress={() => handleUserPress(item.id)}>
                 <Image source={{uri: item.avatar}} style={styles.profile} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <View style={styles.detailContainer}>
                 <Text style={styles.name}>
-                  {item.first_name} {item.last_name}
+                  {/* {item.first_name} {item.last_name} */}
+                  {item.name}
                 </Text>
                 <Text style={styles.email}>{item.email}</Text>
               </View>
@@ -78,8 +82,9 @@ const UserListing = ({navigation}) => {
           onPress={() => navigation.navigate('Users')}>
           <Text style={styles.btnText}>Continue to Next page</Text>
         </TouchableOpacity>
+        {/* <Text style={{color: 'black'}}>{userData.email}</Text>
+        <Text style={{color: 'black'}}>{userData.name}</Text> */}
       </View>
-      {/* )} */}
     </View>
   );
 };
@@ -139,6 +144,16 @@ const styles = StyleSheet.create({
   remove: {
     width: ResponsiveSize(30),
     height: ResponsiveSize(30),
+  },
+  inputContainer: {
+    backgroundColor: COLORS.field,
+    padding: ResponsiveSize(15),
+    borderRadius: ResponsiveSize(20),
+    marginVertical: ResponsiveSize(10),
+  },
+  input: {
+    color: COLORS.contain,
+    fontSize: ResponsiveSize(20),
   },
 });
 

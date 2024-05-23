@@ -18,7 +18,6 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
@@ -68,11 +67,11 @@ const Login = ({navigation}) => {
     });
   };
 
-  const usersCollection =  firestore().collection('Users').get();
+  
   // const userDocument = firestore().collection('users').doc('ABC');
   // console.log('usersCollection', usersCollection.docs[0]);
 
-
+ 
   return (
     <View style={styles.container}>
       <ImageBackground

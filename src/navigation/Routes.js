@@ -1,14 +1,14 @@
-import React from "react";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Welcome from "../screen/Welcome";
-import Login from "../screen/Login";
-import SignUp from "../screen/SignUp";
-import UserListing from "../screen/UserListing";
-import Users from "../screen/Users";
-import UserListingDetails from "../screen/UserListingDetails";
-import UserDetails from "../screen/UsersDetails";
-import Document from "../screen/Document";
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Welcome from '../screen/Welcome';
+import Login from '../screen/Login';
+import SignUp from '../screen/SignUp';
+import UserListing from '../screen/UserListing';
+import Users from '../screen/Users';
+import UserListingDetails from '../screen/UserListingDetails';
+import UserDetails from '../screen/UsersDetails';
+import Document from '../screen/Document';
 
 const Stack = createNativeStackNavigator();
 
