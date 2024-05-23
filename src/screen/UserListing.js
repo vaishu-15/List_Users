@@ -22,6 +22,7 @@ const UserListing = ({navigation}) => {
   const getData = async () =>{
     try {
       const usersCollection = await firestore().collection('users').get();
+      console.log('getData',usersCollection.docs)
       const data = usersCollection.docs.map(doc => ({
         ...doc.data(),
       }));
