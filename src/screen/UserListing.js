@@ -24,10 +24,11 @@ const UserListing = ({navigation}) => {
       const usersCollection = await firestore().collection('users').get();
       console.log('getData',usersCollection.docs)
       const data = usersCollection.docs.map(doc => ({
+        id: doc.id,
         ...doc.data(),
       }));
       setUserData(data);
-    } catch (error) {
+    } catch (error) {+7
       
     }
   }
@@ -46,6 +47,16 @@ const UserListing = ({navigation}) => {
       setEmail('');
       await getData();
     } catch (error) {}
+  };
+
+  const deleteDoc = async (id) =>{
+    try{
+       await firestore().collection('users').doc(id).delete();
+        await getData();
+    }
+    catch(error){
+      console.error('Error deleting user: ', error);
+    }
   };
 
   useEffect(() => {
@@ -81,7 +92,7 @@ const UserListing = ({navigation}) => {
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.email}>{item.email}</Text>
               </View>
-              <TouchableOpacity onPress={() => handleDeleteUser(item.id)}>
+              <TouchableOpacity onPress={() => deleteDoc(item.id)}>
                 <Image
                   source={require('../../assets/images/remove.png')}
                   style={styles.remove}
@@ -170,6 +181,8 @@ const styles = StyleSheet.create({
 export default UserListing;
 
 
+// API data screen........
+
 
 // import React, {useEffect, useState} from 'react';
 // import {
@@ -186,98 +199,44 @@ export default UserListing;
 // import {deleteUser, list} from '../store/userSlice';
 // import ResponsiveSize from '../utils/responsiveSize';
 // import {COLORS} from '../utils/constants';
-// import firestore from '@react-native-firebase/firestore';
+// import { useHandler } from 'react-native-reanimated';
 
 // const UserListing = ({navigation}) => {
 //   const dispatch = useDispatch();
 
 //   const [name, setName] = useState('');
 //   const [email, setEmail] = useState('');
-//   const [userData, setUserData] = useState('');
 
-//   // const listData = useSelector(state => state?.user);
-
-//   // const getData = async () => {
-//   //   const usersCollection = await firestore().collection('users').get();
-//   //   const data = usersCollection.docs.map(doc => ({
-//   //     ...doc.data(),
-//   //   }));
-//   //   console.log(data);
-//   //   setUserData(data);
-//   //     const userDocument =firestore().collection('users').add({
-//   //     name: 'sejal',
-//   //     email: 'vaishali@gmail.com',
-//   //   })
-//   // };
-
-//   const getData = async () => {
-//     if (name.trim() === '' || email.trim() === '') {
-//       Alert.alert('Error', 'Please enter both name and email');
-//       return;
-//     }
-//     try {
-//       await firestore().collection('users').add({
-//         name,
-//         email,
-//       });
-//       setName('');
-//       setEmail('');
-//       const usersCollection = await firestore().collection('users').get();
-//       const data = usersCollection.docs.map(doc => ({
-//         ...doc.data(),
-//       }));
-//       setUserData(data);
-//     } catch (error) {}
-//   };
+//   const listData = useSelector(state => state?.user);
 
 //   useEffect(() => {
-//     getData();
-//   }, []);
-
-//   // useEffect(() => {
-//   //   dispatch(list());
-//   // }, [listData]);
+//     dispatch(list());
+//   }, [listData]);
 
 //   const handleUserPress = userId => {
 //     navigation.navigate('UserListingDetails', {userId});
 //   };
 
-//   // const handleDeleteUser = userId => {
-//   //   dispatch(deleteUser(userId));
-//   // };
+//   const handleDeleteUser = userId => {
+//     dispatch(deleteUser(userId));
+//   };
 
 //   return (
 //     <View style={styles.container}>
 //       <View style={styles.listContainer}>
 //         <Text style={styles.listHeading}>List of users</Text>
-//         <View style={styles.container}>
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Name"
-//             value={name}
-//             onChangeText={setName}
-//           />
-//           <TextInput
-//             style={styles.input}
-//             placeholder="Email"
-//             value={email}
-//             onChangeText={setEmail}
-//           />
-//           <TouchableOpacity style={styles.buttonContainer} onPress={getData}>
-//             <Text style={styles.btnText}>ADD</Text>
-//           </TouchableOpacity>
-//         </View>
+       
 //         <FlatList
-//         style={{}}
-//           data={userData}
+//           style={{}}
+//           data={listData}
 //           renderItem={({item}) => (
 //             <View style={styles.list}>
-//               {/* <TouchableOpacity onPress={() => handleUserPress(item.id)}>
+//               <TouchableOpacity onPress={() => handleUserPress(item.id)}>
 //                 <Image source={{uri: item.avatar}} style={styles.profile} />
-//               </TouchableOpacity> */}
+//               </TouchableOpacity>
 //               <View style={styles.detailContainer}>
 //                 <Text style={styles.name}>
-//                   {/* {item.first_name} {item.last_name} */}
+//                   {item.first_name} {item.last_name}
 //                   {item.name}
 //                 </Text>
 //                 <Text style={styles.email}>{item.email}</Text>
@@ -291,13 +250,11 @@ export default UserListing;
 //             </View>
 //           )}
 //         />
-//         {/* <TouchableOpacity
+//         <TouchableOpacity
 //           style={styles.buttonContainer}
 //           onPress={() => navigation.navigate('Users')}>
 //           <Text style={styles.btnText}>Continue to Next page</Text>
-//         </TouchableOpacity> */}
-//         {/* <Text style={{color: 'black'}}>{userData.email}</Text>
-//         <Text style={{color: 'black'}}>{userData.name}</Text> */}
+//         </TouchableOpacity>
 //       </View>
 //     </View>
 //   );
@@ -376,4 +333,3 @@ export default UserListing;
 // });
 
 // export default UserListing;
-
