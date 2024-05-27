@@ -278,9 +278,6 @@ export default UserListing;
 // const UserListing = ({navigation}) => {
 //   const dispatch = useDispatch();
 
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-
 //   const listData = useSelector(state => state?.user);
 
 //   useEffect(() => {
