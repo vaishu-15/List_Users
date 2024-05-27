@@ -7,31 +7,34 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Alert
+  Alert,
+  Modal,
 } from 'react-native';
 import ResponsiveSize from '../utils/responsiveSize';
 import {COLORS} from '../utils/constants';
 import firestore from '@react-native-firebase/firestore';
 
 const UserListing = ({navigation}) => {
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [userData, setUserData] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [updatedName, setUpdatedName] = useState('');
+  const [updatedEmail, setUpdatedEmail] = useState('');
 
-  const getData = async () =>{
+  const getData = async () => {
     try {
       const usersCollection = await firestore().collection('users').get();
-      console.log('getData',usersCollection.docs)
       const data = usersCollection.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
       }));
       setUserData(data);
-    } catch (error) {+7
-      
+    } catch (error) {
+      console.error('Error fetching data: ', error);
     }
-  }
+  };
 
   const createDoc = async () => {
     if (name.trim() === '' || email.trim() === '') {
@@ -46,17 +49,38 @@ const UserListing = ({navigation}) => {
       setName('');
       setEmail('');
       await getData();
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error creating document: ', error);
+    }
   };
 
-  const deleteDoc = async (id) =>{
-    try{
-       await firestore().collection('users').doc(id).delete();
-        await getData();
-    }
-    catch(error){
+  const deleteDoc = async id => {
+    try {
+      await firestore().collection('users').doc(id).delete();
+      await getData();
+    } catch (error) {
       console.error('Error deleting user: ', error);
     }
+  };
+
+  const updateDoc = async id => {
+    try {
+      await firestore().collection('users').doc(id).update({
+        name: updatedName,
+        email: updatedEmail,
+      });
+      setModalVisible(false);
+      await getData(); 
+    } catch (error) {
+      console.error('Error updating user: ', error);
+    }
+  };
+
+  const openEditModal = user => {
+    setSelectedUser(user);
+    setUpdatedName(user.name);
+    setUpdatedEmail(user.email);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -86,12 +110,19 @@ const UserListing = ({navigation}) => {
         </View>
         <FlatList
           data={userData}
+          keyExtractor={item => item.id}
           renderItem={({item}) => (
             <View style={styles.list}>
               <View style={styles.detailContainer}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.email}>{item.email}</Text>
               </View>
+              <TouchableOpacity onPress={() => openEditModal(item)}>
+                <Image
+                  source={require('../../assets/images/edit.png')}
+                  style={styles.edit}
+                />
+              </TouchableOpacity>
               <TouchableOpacity onPress={() => deleteDoc(item.id)}>
                 <Image
                   source={require('../../assets/images/remove.png')}
@@ -102,13 +133,46 @@ const UserListing = ({navigation}) => {
           )}
         />
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.modalView}>
+          <TextInput
+            style={styles.input}
+            placeholder="Updated Name"
+            value={updatedName}
+            onChangeText={setUpdatedName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Updated Email"
+            value={updatedEmail}
+            onChangeText={setUpdatedEmail}
+          />
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => updateDoc(selectedUser.id)}>
+            <Text style={styles.btnText}>UPDATE</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonContainer, {backgroundColor: 'red'}]}
+            onPress={() => setModalVisible(!modalVisible)}>
+            <Text style={styles.btnText}>CANCEL</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   list: {
-    flex:1,
+    flex: 1,
     padding: ResponsiveSize(10),
     borderWidth: 1,
     margin: ResponsiveSize(15),
@@ -123,8 +187,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     marginTop: ResponsiveSize(80),
-    flexDirection:'column',
-    justifyContent:'space-evenly'
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
   },
   listHeading: {
     fontSize: ResponsiveSize(30),
@@ -164,6 +228,10 @@ const styles = StyleSheet.create({
     width: ResponsiveSize(30),
     height: ResponsiveSize(30),
   },
+  edit: {
+    width: ResponsiveSize(25),
+    height: ResponsiveSize(25),
+  },
   inputContainer: {
     backgroundColor: COLORS.field,
     padding: ResponsiveSize(15),
@@ -173,16 +241,22 @@ const styles = StyleSheet.create({
   input: {
     color: COLORS.text,
     fontSize: ResponsiveSize(20),
-    margin:ResponsiveSize(20),
-    borderWidth:1
+    margin: ResponsiveSize(20),
+    padding:ResponsiveSize(20),
+    borderWidth: 1,
+    backgroundColor:'white',
+    borderRadius:ResponsiveSize(8)
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
 });
 
 export default UserListing;
 
-
 // API data screen........
-
 
 // import React, {useEffect, useState} from 'react';
 // import {
@@ -225,7 +299,7 @@ export default UserListing;
 //     <View style={styles.container}>
 //       <View style={styles.listContainer}>
 //         <Text style={styles.listHeading}>List of users</Text>
-       
+
 //         <FlatList
 //           style={{}}
 //           data={listData}
