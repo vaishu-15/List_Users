@@ -133,7 +133,6 @@ const UserListing = ({navigation}) => {
           )}
         />
       </View>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -189,6 +188,7 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveSize(80),
     flexDirection: 'column',
     justifyContent: 'space-evenly',
+    flex:1,
   },
   listHeading: {
     fontSize: ResponsiveSize(30),
