@@ -70,7 +70,7 @@ const UserListing = ({navigation}) => {
         email: updatedEmail,
       });
       setModalVisible(false);
-      await getData(); 
+      await getData();
     } catch (error) {
       console.error('Error updating user: ', error);
     }
@@ -133,7 +133,6 @@ const UserListing = ({navigation}) => {
           )}
         />
       </View>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -189,6 +188,7 @@ const styles = StyleSheet.create({
     marginTop: ResponsiveSize(80),
     flexDirection: 'column',
     justifyContent: 'space-evenly',
+    flex:1,
   },
   listHeading: {
     fontSize: ResponsiveSize(30),
@@ -242,10 +242,10 @@ const styles = StyleSheet.create({
     color: COLORS.text,
     fontSize: ResponsiveSize(20),
     margin: ResponsiveSize(20),
-    padding:ResponsiveSize(20),
+    padding: ResponsiveSize(20),
     borderWidth: 1,
-    backgroundColor:'white',
-    borderRadius:ResponsiveSize(8)
+    backgroundColor: 'white',
+    borderRadius: ResponsiveSize(8),
   },
   modalView: {
     flex: 1,
