@@ -66,11 +66,6 @@ const Login = ({navigation}) => {
       }
     });
   };
-
-  
-  // const userDocument = firestore().collection('users').doc('ABC');
-  // console.log('usersCollection', usersCollection.docs[0]);
-
  
   return (
     <View style={styles.container}>
@@ -105,7 +100,6 @@ const Login = ({navigation}) => {
           <TouchableOpacity style={styles.googleLogin} onPress={signIn}>
           <Image source={require('../../assets/images/google.png')}
           style={{width:ResponsiveSize(50),height:ResponsiveSize(50)}}/>
-            {/* <Text style={styles.loginButtonText}>Google Login</Text> */}
           </TouchableOpacity>
           <View style={styles.signUp}>
             <Text style={styles.question}>Don't have an account ? </Text>
