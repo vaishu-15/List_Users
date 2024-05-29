@@ -160,20 +160,6 @@ export const updateUserPatch = createAsyncThunk(
   },
 );
 
-// export const fetchDataWithDelay = createAsyncThunk(
-//   'user/fetchDataWithDelay',
-//   async (_, {rejectWithValue}) => {
-//     try {
-//       const response = await api.get('users?delay=3');
-//       return response.data.data;
-//     } catch (error) {
-//       return rejectWithValue(
-//         error.response ? error.response.data : error.message,
-//       );
-//     }
-//   },
-// );
-
 const initialState = {
   user: [null],
   additionalData: [null],
@@ -266,18 +252,6 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action?.error?.message;
       });
-    // .addCase(fetchDataWithDelay.pending, state => {
-    //   state.loading = true;
-    //   state.error = null;
-    // })
-    // .addCase(fetchDataWithDelay.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.user = action.payload;
-    // })
-    // .addCase(fetchDataWithDelay.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action?.error?.message;
-    // });
   },
 });
 
